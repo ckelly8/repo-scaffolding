@@ -1,0 +1,10 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+
+# Supply-chain hardening: never install a package version younger than 48h (2880 min).
+# Requires pnpm v10+. Add internal/first-party package names under
+# minimumReleaseAgeExclude to bypass the cooldown for your own publishes.
+minimumReleaseAge: 2880
+# minimumReleaseAgeExclude:
+#   - "@scope/*"

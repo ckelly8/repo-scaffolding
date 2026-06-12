@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "lint": "biome check .",
+    "typecheck": "tsc -b",
+    "ast-grep": "ast-grep scan",
+    "dep:check": "depcruise --config .dependency-cruiser.cjs apps packages",
+    "check:refs": "node check-refs.mjs",
+    "knip": "knip",
+    "test": "vitest run",
+    "verify": "pnpm lint && pnpm typecheck && pnpm ast-grep && pnpm dep:check && pnpm check:refs && pnpm knip && pnpm test"
+  }
+}
