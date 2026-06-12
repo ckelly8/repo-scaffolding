@@ -40,4 +40,23 @@ Six concerns, each a reference module with a `Principle / Assess / Apply` shape:
 
 ## Validation
 
-See Task 13.
+This skill follows a dev-tooling, single-developer posture: validation is manual walkthroughs, not
+automated CI.
+
+1. **Manifest parity** — `plugin.json` and `marketplace.json` parse and stay in agreement:
+
+   ```bash
+   node -e "const p=JSON.parse(require('fs').readFileSync('.claude-plugin/plugin.json','utf8'));const m=JSON.parse(require('fs').readFileSync('.claude-plugin/marketplace.json','utf8'));if(p.skills!=='./skills/')throw new Error('skills path');if(m.plugins[0].source!=='./')throw new Error('source');if(p.name!==m.plugins[0].name)throw new Error('name mismatch');console.log('PARITY OK')"
+   ```
+
+   Expected: `PARITY OK`.
+
+2. **Idempotency check** — run a dry-run *assess* against a repo that already meets the standard.
+   Every core concern should report `present`, and Propose should offer a no-op plan (nothing to
+   apply, nothing overwritten). Run this privately against a known-good repo of your own; the check
+   names no specific repo.
+
+3. **Greenfield check** — run a dry-run *assess* against a bare/empty repo. Every concern should
+   report `absent`, and Propose should produce a coherent, dependency-ordered apply plan
+   (`claude-md → package-boundaries → project-refs-verify → supply-chain → lsp-and-astgrep`, with
+   mutation-testing only if opted in).
