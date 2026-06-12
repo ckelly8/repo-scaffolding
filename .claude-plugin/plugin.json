@@ -1,0 +1,23 @@
+{
+  "name": "repo-scaffolding",
+  "description": "Bootstrap a repository to an agent-primary engineering standard via an assess -> propose -> apply loop: load-bearing CLAUDE.md, enforced package boundaries, a single verify gate, LSP + ast-grep code intelligence, and pnpm supply-chain hardening. TypeScript built; other languages pluggable.",
+  "version": "0.1.0",
+  "author": {
+    "name": "ckelly8",
+    "email": "oss@kellytechpartners.com"
+  },
+  "homepage": "https://github.com/ckelly8/repo-scaffolding",
+  "repository": "https://github.com/ckelly8/repo-scaffolding",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "scaffolding",
+    "monorepo",
+    "typescript",
+    "pnpm",
+    "dependency-cruiser",
+    "ast-grep",
+    "agent-primary"
+  ],
+  "skills": "./skills/"
+}
