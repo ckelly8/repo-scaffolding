@@ -56,3 +56,7 @@ Cite the file and which checks passed/failed as the evidence in the gap report.
 **Brownfield:** if a `CLAUDE.md` already exists, do **not** overwrite it. Merge — show a diff of the
 sections you would add (e.g. a missing dependency-chain table), and only apply with confirmation.
 Preserve any existing rules the maintainer wrote.
+
+**C# Apply:** copy `languages/csharp/templates/CLAUDE.md` and fill the dependency-chain table with the
+target's real projects (`.sln`/`.csproj` vocabulary). The table is the boundary contract the
+`ArchitectureTests` guard (see `package-boundaries.md`) enforces.

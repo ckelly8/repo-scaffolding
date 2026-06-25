@@ -39,6 +39,20 @@ grep -E "minimumReleaseAge" pnpm-workspace.yaml
 grep -E "save-exact" .npmrc
 ```
 
+**C#:**
+
+- `present` — `Directory.Packages.props` sets `ManagePackageVersionsCentrally=true` with exact
+  `PackageVersion` pins **and** `nuget.config` clears sources to a locked feed **and**
+  `RestorePackagesWithLockFile` is on (a committed `packages.lock.json` exists).
+- `partial` — exactly one of central-pinning / locked-source / lockfile is present.
+- `absent` — none.
+
+```bash
+grep -q "ManagePackageVersionsCentrally" Directory.Packages.props 2>/dev/null && echo "CPM present"
+grep -q "<clear" nuget.config 2>/dev/null && echo "locked source present"
+ls **/packages.lock.json 2>/dev/null && echo "lockfile present"
+```
+
 ## Apply
 
 1. Copy `languages/typescript/templates/.npmrc` and
@@ -50,3 +64,10 @@ grep -E "save-exact" .npmrc
 4. Mention the `minimumReleaseAgeExclude` escape hatch: list internal/first-party package names there
    to bypass the cooldown for the repo's *own* publishes (you don't want to wait 48h to consume a
    package you just published in the same workspace).
+
+**C# Apply:** copy `languages/csharp/templates/Directory.Packages.props` and `nuget.config` to the
+repo root; ensure `RestorePackagesWithLockFile` is set (it ships in `Directory.Build.props`). Move any
+in-`.csproj` `<PackageReference Version="…">` into central `PackageVersion` pins. This is the NuGet
+analogue of pin-exact + committed-lockfile + frozen-install: the gate's `dotnet restore --locked-mode`
+fails if the lockfile and the manifest disagree. (NuGet has no `minimumReleaseAge` cooldown equivalent;
+the pin + lockfile is the protective core.)

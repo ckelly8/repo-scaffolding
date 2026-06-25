@@ -34,6 +34,18 @@ ls .dependency-cruiser.* 2>/dev/null && echo "config present" || echo "no config
 grep -E "depcruise|dependency-cruiser|dep:check" package.json   # is it wired into a script?
 ```
 
+**C#:**
+
+- `present` — an `ArchitectureTests` project (NetArchTest) exists with at least one boundary
+  assertion **and** it is part of the solution (so `dotnet test` runs it).
+- `partial` — the project exists but isn't referenced by the `.sln`, so the gate never runs it.
+- `absent` — no architecture-test project.
+
+```bash
+ls **/ArchitectureTests.csproj 2>/dev/null && echo "arch project present" || echo "no arch project"
+grep -rEl "NetArchTest" --include=*.csproj . 2>/dev/null   # NetArchTest wired in?
+```
+
 ## Apply
 
 1. Copy `languages/typescript/templates/.dependency-cruiser.cjs` to the target root.
@@ -47,3 +59,9 @@ grep -E "depcruise|dependency-cruiser|dep:check" package.json   # is it wired in
 
 **Brownfield:** if a config already exists, show a diff of the added/changed rules before writing,
 and keep any project-specific rules the maintainer wrote.
+
+**C# Apply:** copy `languages/csharp/templates/ArchitectureTests.csproj` and `BoundaryTests.cs` into a
+test project, add it to the `.sln`, and point the `<ProjectReference>`s + the `HaveDependencyOn`
+namespaces at the target's real projects — one `[Fact]` per forbidden edge in the CLAUDE.md dependency
+table, keeping the `Core_does_not_depend_on_App` (no-app-imports) rule. The guard rides inside
+`dotnet test`, so the pre-push gate runs it with no extra wiring.

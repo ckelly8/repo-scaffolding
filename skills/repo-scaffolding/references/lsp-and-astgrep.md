@@ -54,3 +54,10 @@ grep -E "ast-grep|sg scan" package.json   # wired into the gate?
    time as the reviewer surfaces recurring structurally-catchable patterns.
 
 **Brownfield:** merge into an existing `rules/` and gate; do not clobber rules the maintainer wrote.
+
+**C# Apply:** for LSP, instruct using the Roslyn-based C# language server via the `LSP` tool and copy
+`languages/csharp/lsp-tools.md` into the target's docs (same two caveats: the `LSP` tool is **deferred**
+— load it with `ToolSearch` `select:LSP`; and **warm the consuming projects before any cross-project
+`findReferences`**). For ast-grep, copy `languages/csharp/templates/sgconfig.yml` and
+`languages/csharp/templates/rules/no-empty-catch.yml` (with its `__fixtures__/`), and wire
+`ast-grep scan` into the pre-push gate (already present in the shipped hook). Grow `rules/` over time.

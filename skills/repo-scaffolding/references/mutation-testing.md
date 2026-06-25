@@ -42,3 +42,7 @@ grep -E "test:mutate|stryker" package.json
 3. Do **not** add `test:mutate` to `verify` — it is a separate command, run on demand. State the
    runtime expectation up front: **tens of minutes**, so it is a set-and-forget run, not part of the
    inner loop.
+
+**C# Apply (opt-in):** copy `languages/csharp/templates/stryker-config.json`, point `project` and
+`test-projects` at the target's real projects, and run Stryker.NET (`dotnet stryker`) as an explicit
+heavy run — never part of the default pre-push gate.

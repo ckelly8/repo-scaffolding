@@ -33,6 +33,18 @@ node -e "console.log(JSON.parse(require('fs').readFileSync('package.json','utf8'
 grep -E '"references"' tsconfig.json   # solution-style root references[] present?
 ```
 
+**C#:**
+
+- `present` — `Directory.Build.props` + `global.json` exist **and** a `.githooks/pre-push` gate exists
+  (and `core.hooksPath` points at it) chaining format + build + test.
+- `partial` — the props/`global.json` exist but there is no committed gate (or vice-versa).
+- `absent` — none of the substrate is present.
+
+```bash
+ls global.json Directory.Build.props .githooks/pre-push 2>/dev/null
+git config --get core.hooksPath   # expect: .githooks
+```
+
 ## Apply
 
 1. Copy `languages/typescript/templates/tsconfig.base.json` (the root solution) and
@@ -46,3 +58,11 @@ grep -E '"references"' tsconfig.json   # solution-style root references[] presen
 **Brownfield:** show a diff before editing `package.json` or `tsconfig.json` — never clobber an
 existing `verify` script or `tsconfig` silently. Merge the missing composing steps into whatever gate
 already exists.
+
+**C# Apply:** copy `languages/csharp/templates/global.json`, `Directory.Build.props`, and
+`.editorconfig` to the repo root, and `languages/csharp/templates/.githooks/pre-push` to `.githooks/`.
+Enable the gate once per clone: `git config core.hooksPath .githooks`. The gate
+(`dotnet format --verify-no-changes` → `dotnet restore --locked-mode` → `dotnet build` →
+`dotnet test` → `ast-grep scan`) is the C# `verify` equivalent — the sole source of truth for "is the
+tree green." There is **no `check-refs` analogue**: C#'s `.sln` + `ProjectReference` graph is
+compiler-enforced, so tsconfig-style reference drift cannot occur.
