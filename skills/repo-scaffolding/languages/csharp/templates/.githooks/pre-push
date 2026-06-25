@@ -1,0 +1,31 @@
+#!/bin/sh
+# Native pre-push gate — the SOLE source of truth for "is the tree green".
+# No hosted CI by design: this runs locally and exits non-zero to BLOCK the push on failure.
+#
+# Enable once per clone:   git config core.hooksPath .githooks
+#
+# If timing-sensitive tests flake under parallel load, constrain test parallelism by adding
+#   -- RunConfiguration.MaxCpuCount=1
+# to the `dotnet test` line below (advice, not a shipped .runsettings — see the README).
+set -e
+
+echo "[pre-push] format check"
+dotnet format --verify-no-changes
+
+echo "[pre-push] restore (locked)"
+dotnet restore --locked-mode
+
+echo "[pre-push] build"
+dotnet build -c Release --no-restore
+
+echo "[pre-push] test (boundary + unit; arch guards ride along)"
+dotnet test -c Release --no-build
+
+echo "[pre-push] structural rules"
+if command -v ast-grep >/dev/null 2>&1; then
+  ast-grep scan
+else
+  echo "  (ast-grep not on PATH — skipping structural rules; install to enforce)"
+fi
+
+echo "[pre-push] OK — tree is green"
