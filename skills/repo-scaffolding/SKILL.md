@@ -1,6 +1,6 @@
 ---
 name: repo-scaffolding
-description: Use when setting up a new repository or retrofitting an existing one to an agent-primary engineering standard. Runs an assess -> propose -> apply loop over six concerns (load-bearing CLAUDE.md, enforced package boundaries, project-references + a single verify gate, LSP + ast-grep code intelligence, pnpm supply-chain hardening, optional mutation testing). TypeScript is fully built; other languages degrade to principles-only.
+description: Use when setting up a new repository or retrofitting an existing one to an agent-primary engineering standard. Runs an assess -> propose -> apply loop over six concerns (load-bearing CLAUDE.md, enforced package boundaries, project-references + a single verify gate, LSP + ast-grep code intelligence, pnpm supply-chain hardening, optional mutation testing). TypeScript and C# are fully built; other languages degrade to principles-only.
 ---
 
 # Repo Scaffolding
@@ -22,9 +22,9 @@ reference modules in `references/` and per-language concrete files to `languages
 1. **Detect** — identify the target's language/stack and package manager.
    - `package.json` present → **TypeScript** (fully built). Detect: `ls package.json` and
      read its `packageManager` field; `Glob` `pnpm-workspace.yaml` / `pnpm-lock.yaml` to confirm pnpm.
-   - `*.sln` or `*.csproj` present → **C#**. Detect: `Glob` `**/*.sln` and `**/*.csproj`. C# is a
-     **reserved slot** — say so explicitly and degrade to **principles-only** (assess + advise from
-     each module's `## Principle`; apply no templates, since there are none yet).
+   - `*.sln` or `*.csproj` present → **C#** (fully built). Detect: `Glob` `**/*.sln` and `**/*.csproj`.
+     Apply from `languages/csharp/templates/` exactly as the TypeScript layer does — each concern
+     module's `## Apply` has a C# recipe.
    - If neither matches, report what was found and stop — there is no language layer to apply.
 
 2. **Assess** — run each concern module's `## Assess` predicate against the target and emit a **gap
@@ -74,6 +74,8 @@ each run only fills the gaps that have opened since the last one.
 - **TypeScript** — `languages/typescript/` is the fully built layer: copyable templates
   (`templates/`), the genericized LSP-tool reference (`lsp-tools.md`), and a worked README tying them
   together. The `## Apply` recipes copy from here.
-- **C#** — `languages/csharp/` is a **reserved slot**: the portable principles apply unchanged, but
-  the per-language pieces (boundary-enforcement tool, verify-gate command set, C# LSP wiring) and
-  templates are not built yet, so C# targets get principles-only advice.
+- **C#** — `languages/csharp/` is the second fully built layer: copyable templates (`templates/`), a
+  C# LSP reference (`lsp-tools.md`), and a worked README. The verify gate is a native
+  `.githooks/pre-push` hook (no hosted CI). Two deliberate non-ports vs. TypeScript: no `check-refs`
+  guard (the `.sln`/`ProjectReference` graph is compiler-enforced) and no shipped `.runsettings` (test
+  parallelism is per-repo advice). See `languages/csharp/README.md`.

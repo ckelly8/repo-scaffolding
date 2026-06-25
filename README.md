@@ -9,7 +9,7 @@ it detects the target's language and stack, assesses each concern to produce a g
 an ordered apply plan, and applies the approved concerns from ready-to-use templates. It works
 greenfield (a new, empty repo) or brownfield (retrofitting an existing one) and is idempotent —
 re-running on an already-scaffolded repo yields an all-`present` report and a no-op plan. TypeScript
-is fully built; other languages degrade gracefully to principles-only advice.
+and C# are fully built; other languages degrade gracefully to principles-only advice.
 
 ## Install
 
