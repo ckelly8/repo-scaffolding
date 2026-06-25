@@ -1,0 +1,11 @@
+{
+  "stryker-config": {
+    "project": "Scope.Core.csproj",
+    "test-projects": [
+      "test/Scope.Core.Tests/Scope.Core.Tests.csproj"
+    ],
+    "reporters": ["html", "progress"],
+    "thresholds": { "high": 80, "low": 60, "break": 0 },
+    "mutation-level": "Standard"
+  }
+}
