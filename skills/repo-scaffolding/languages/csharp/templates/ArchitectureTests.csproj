@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <!-- This guard is Linux-buildable: it reflects over namespaces, not platform types. -->
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Versions come from Directory.Packages.props (Central Package Management). -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="NetArchTest.Rules" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Point these at the target's real projects. Foundation + every leaf the rules cover. -->
+    <ProjectReference Include="..\src\Scope.Core\Scope.Core.csproj" />
+    <ProjectReference Include="..\src\Scope.App\Scope.App.csproj" />
+  </ItemGroup>
+</Project>
