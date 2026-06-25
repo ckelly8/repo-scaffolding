@@ -1,0 +1,19 @@
+<Project>
+  <!-- Hoisted from every .csproj so build hygiene is set once, repo-wide.
+       TargetFramework stays per-project (a project may target a Windows-only TFM). -->
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Analyzers on, warnings are errors. .editorconfig dials individual rules down
+         (baseline-and-ratchet) so the build stays green today. -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Supply-chain: every restore writes/honors a committed packages.lock.json. -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+</Project>
