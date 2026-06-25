@@ -1,0 +1,17 @@
+# Generic C# rule (not domain-specific): a bare empty catch silently swallows every
+# exception — a known fail-open bug class. Require a typed catch that handles, logs, or
+# rethrows. Grow rules/ over time as review surfaces other structurally-catchable patterns.
+id: no-empty-catch
+language: csharp
+severity: warning
+message: >-
+  Empty catch block swallows the exception. Catch a specific exception type and handle,
+  log, or rethrow it.
+rule:
+  kind: catch_clause
+  not:
+    has:
+      field: body
+      has:
+        kind: _
+        stopBy: end

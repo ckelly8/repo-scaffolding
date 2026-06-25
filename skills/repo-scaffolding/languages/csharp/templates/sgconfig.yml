@@ -1,0 +1,3 @@
+# ast-grep project config. `ast-grep scan` reads this and runs every rule under ruleDirs.
+ruleDirs:
+  - rules
