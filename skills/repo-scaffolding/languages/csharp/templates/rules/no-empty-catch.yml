@@ -13,5 +13,5 @@ rule:
     has:
       field: body
       has:
-        kind: _
+        pattern: $_
         stopBy: end

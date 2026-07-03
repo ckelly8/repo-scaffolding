@@ -1,13 +1,9 @@
-id: no-floating-promise-in-tests
+id: no-floating-promise
 language: typescript
 severity: warning
 message: Possibly floating promise — await it or explicitly void it.
 rule:
-  pattern: $FN($$$)
   kind: expression_statement
   has:
-    pattern: await $$$
-    not:
-      inside:
-        any:
-          - kind: await_expression
+    kind: call_expression
+    pattern: $FN($$$)
