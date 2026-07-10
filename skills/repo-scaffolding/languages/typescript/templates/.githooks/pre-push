@@ -1,0 +1,17 @@
+#!/bin/sh
+# Native pre-push gate — the SOLE source of truth for "is the tree green".
+# Zero-dependency enforcement via git's own core.hooksPath (no husky required).
+# It exits non-zero to BLOCK the push on a red tree.
+#
+# Enable once per clone (or let the package.json "prepare" script do it):
+#   git config core.hooksPath .githooks
+#
+# Prefer husky or CI instead? See references/project-refs-verify.md — a .husky/pre-push
+# or a CI workflow are interchangeable ways to enforce the same gate. Pick one; don't
+# leave the gate un-enforced.
+set -e
+
+echo "[pre-push] verify — the single gate"
+pnpm verify
+
+echo "[pre-push] OK — tree is green"

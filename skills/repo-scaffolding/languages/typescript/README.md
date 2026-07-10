@@ -23,7 +23,10 @@ the one before it:
    edge — failing the build on an illegal import.
 5. **The verify gate** (`package.verify-scripts.json`) chains everything into one command:
    `lint → typecheck (tsc -b) → ast-grep → dep:check → check:refs → knip → test`. This is the sole
-   source of truth for "is the tree green."
+   source of truth for "is the tree green." A committed **`.githooks/pre-push`** (enabled by a
+   `prepare` script that sets `core.hooksPath`) runs that gate on every push, so it is enforced by
+   the repo rather than by anyone remembering — husky or CI are interchangeable alternatives (see
+   `project-refs-verify.md`).
 6. **LSP + ast-grep** add code intelligence on top: the `typescript-lsp` plugin (driven via the `LSP`
    tool, see `lsp-tools.md`) for symbol-level reasoning, and `rules/no-floating-promise.yml` as the
    seed of a growing structural-rule set.
@@ -38,6 +41,7 @@ the one before it:
 | `tsconfig.package.json`        | `project-refs-verify.md`                 |
 | `check-refs.mjs`               | `project-refs-verify.md`                 |
 | `package.verify-scripts.json`  | `project-refs-verify.md`                 |
+| `.githooks/pre-push`           | `project-refs-verify.md`                 |
 | `.npmrc`                       | `supply-chain.md`                        |
 | `pnpm-workspace.yaml`          | `supply-chain.md`                        |
 | `rules/no-floating-promise.yml`| `lsp-and-astgrep.md`                     |

@@ -1,6 +1,6 @@
 ---
 name: repo-scaffolding
-description: Use when setting up a new repository or retrofitting an existing one to an agent-primary engineering standard. Runs an assess -> propose -> apply loop over six concerns (load-bearing CLAUDE.md, enforced package boundaries, project-references + a single verify gate, LSP + ast-grep code intelligence, pnpm supply-chain hardening, optional mutation testing). TypeScript and C# are fully built; other languages degrade to principles-only.
+description: Use when setting up a new repository or retrofitting an existing one to an agent-primary engineering standard. Runs an assess -> propose -> apply loop over six concerns (load-bearing CLAUDE.md, enforced package boundaries, project-references + a single enforced verify gate, LSP + ast-grep code intelligence, pnpm supply-chain hardening, optional mutation testing). TypeScript and C# are fully built; other languages degrade to principles-only.
 ---
 
 # Repo Scaffolding
@@ -8,7 +8,7 @@ description: Use when setting up a new repository or retrofitting an existing on
 This skill bootstraps a repository to an **agent-primary** engineering standard — a codebase shaped
 so that an LLM agent and a human reach correct behavior through the same enforced structure, not
 through tribal knowledge. The standard is six concerns: a load-bearing CLAUDE.md, enforced package
-boundaries, one build graph behind a single verify gate, LSP + ast-grep code intelligence, pnpm
+boundaries, one build graph behind a single enforced verify gate, LSP + ast-grep code intelligence, pnpm
 supply-chain hardening, and (opt-in) mutation testing. It works **greenfield** (a new, empty repo)
 or **brownfield** (retrofitting an existing one), and it is **idempotent**: re-running on an
 already-standard repo yields an all-`present` gap report and a no-op plan, so it is safe to run
@@ -54,7 +54,7 @@ reference modules in `references/` and per-language concrete files to `languages
 | ----------------------------- | ----------------------------------------------- | ----- | ---------------- |
 | Load-bearing CLAUDE.md        | [references/claude-md.md](references/claude-md.md)                       | core   | yes |
 | Enforced package boundaries   | [references/package-boundaries.md](references/package-boundaries.md)     | core   | yes |
-| Project-refs + verify gate    | [references/project-refs-verify.md](references/project-refs-verify.md)   | core   | yes |
+| Project-refs + enforced verify gate | [references/project-refs-verify.md](references/project-refs-verify.md) | core | yes |
 | Supply-chain hardening        | [references/supply-chain.md](references/supply-chain.md)                 | core   | yes |
 | LSP + ast-grep intelligence   | [references/lsp-and-astgrep.md](references/lsp-and-astgrep.md)           | core   | yes |
 | Mutation testing              | [references/mutation-testing.md](references/mutation-testing.md)         | opt-in | no  |
@@ -73,7 +73,9 @@ each run only fills the gaps that have opened since the last one.
 
 - **TypeScript** — `languages/typescript/` is the fully built layer: copyable templates
   (`templates/`), the genericized LSP-tool reference (`lsp-tools.md`), and a worked README tying them
-  together. The `## Apply` recipes copy from here.
+  together. The `## Apply` recipes copy from here. The verify gate is enforced by a committed
+  `.githooks/pre-push` (with husky and CI offered as interchangeable alternatives) — matching the C#
+  layer, which has always shipped its pre-push gate.
 - **C#** — `languages/csharp/` is the second fully built layer: copyable templates (`templates/`), a
   C# LSP reference (`lsp-tools.md`), and a worked README. The verify gate is a native
   `.githooks/pre-push` hook (no hosted CI). Two deliberate non-ports vs. TypeScript: no `check-refs`
