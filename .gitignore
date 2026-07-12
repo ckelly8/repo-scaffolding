@@ -4,3 +4,6 @@ node_modules/
 bin/
 obj/
 *.user
+
+# Local brainstorming specs & implementation plans — never publish to this repo's history
+docs/superpowers/
