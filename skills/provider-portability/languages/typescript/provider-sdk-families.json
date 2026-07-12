@@ -1,0 +1,29 @@
+{
+  "$comment": "Known external-infrastructure SDK families grouped by seam. Detect matches a target's package.json dependencies and import specifiers against these prefixes. This is a representative starter list, not an exhaustive registry — extend it per ecosystem. Names here are neutral examples of interchangeable providers.",
+  "seams": {
+    "data-store": {
+      "description": "SQL/Postgres client drivers and hosted-Postgres SDKs. The interface over these makes any Postgres host swappable.",
+      "packages": ["pg", "postgres", "@neondatabase/serverless", "@vercel/postgres", "@supabase/supabase-js", "mysql2", "better-sqlite3"]
+    },
+    "object-storage": {
+      "description": "Blob / object storage clients.",
+      "packages": ["@aws-sdk/client-s3", "@google-cloud/storage", "@azure/storage-blob"]
+    },
+    "auth-identity": {
+      "description": "Auth / identity provider SDKs. The app owns its session lifecycle; the upstream identity provider stays pluggable.",
+      "packages": ["@clerk/backend", "next-auth", "@auth/core", "firebase-admin", "@supabase/auth-js"]
+    },
+    "realtime": {
+      "description": "Realtime / change-broadcast transports.",
+      "packages": ["pusher", "ably", "@supabase/realtime-js", "socket.io"]
+    },
+    "queue-eventbus": {
+      "description": "Queues / pub-sub / message brokers for out-of-process fan-out.",
+      "packages": ["bullmq", "@aws-sdk/client-sqs", "amqplib", "kafkajs", "ioredis"]
+    },
+    "http-runtime": {
+      "description": "Deployment-runtime bindings that couple the HTTP entry point to one host. Keep the app a runtime-agnostic handler; each target is a thin composition-root entry.",
+      "packages": ["@cloudflare/workers-types", "@vercel/node", "aws-lambda", "@netlify/functions"]
+    }
+  }
+}
