@@ -11,6 +11,13 @@ greenfield (a new, empty repo) or brownfield (retrofitting an existing one) and 
 re-running on an already-scaffolded repo yields an all-`present` report and a no-op plan. TypeScript
 and C# are fully built; other languages degrade gracefully to principles-only advice.
 
+## Skills in this plugin
+
+- **`repo-scaffolding`** — bootstrap a repo to the agent-primary engineering standard (six concerns).
+- **`provider-portability`** — for a deployable app, put every external infrastructure host behind an
+  owned interface so swapping it is a new adapter, not a user-data migration. Composes with
+  `repo-scaffolding`; discipline-first, TypeScript-first.
+
 ## Install
 
 ```
