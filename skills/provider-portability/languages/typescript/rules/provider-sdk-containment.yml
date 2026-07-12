@@ -1,0 +1,19 @@
+# provider-sdk-containment — the ast-grep mirror of the dependency-cruiser rule, for repos that gate
+# with ast-grep. It flags an import of an external provider SDK from anywhere EXCEPT the adapter/ports
+# package. Tune `ignores` to the target's adapter path and the `regex` alternation to the SDK
+# families actually present (see ../provider-sdk-families.json).
+id: provider-sdk-containment
+language: typescript
+severity: error
+message: >-
+  External provider SDK imported outside the adapter/ports package. Move it behind the seam
+  interface and import it only from the composition root — otherwise swapping the host leaks into
+  business logic.
+# The one place provider SDKs may live. Everything else is scanned.
+ignores:
+  - "**/adapter-*/**"
+rule:
+  kind: import_statement
+  has:
+    field: source
+    regex: "['\"](pg|postgres|@neondatabase/|@vercel/postgres|@supabase/|@aws-sdk/|@clerk/|firebase-admin)"
